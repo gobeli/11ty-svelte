@@ -4,20 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+
+      .components {
+        display: grid;
+        gap: 0.5rem;
+      }
+    </style>
   </head>
   <body>
     <main>
       <h1>Svelte x 11ty</h1>
-      
+      <div class="components">
+        
     <div class="svelte--Test.svelte" data-props='{"name":"not Etienne"}'>
       <input type="text" value="not Etienne"> My name is not Etienne
     </div>
   
-      
+        
     <div class="svelte--Test.svelte" data-props='{"name":"Etienne"}'>
       <input type="text" value="Etienne"> My name is Etienne
     </div>
   
+      </div>
     </main>
     <script async defer src="scripts/index.js"></script>
   </body>
