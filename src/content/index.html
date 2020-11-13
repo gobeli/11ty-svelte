@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <main>
+      <h1>Svelte x 11ty</h1>
+      {% svelte "Test.svelte", { name: 'not Etienne' } %}
+      {% svelte "Test.svelte", { name: 'Etienne' } %}
+    </main>
+    <script async defer src="scripts/index.js"></script>
+  </body>
+</html>
