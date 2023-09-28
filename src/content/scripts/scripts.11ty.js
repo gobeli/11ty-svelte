@@ -16,7 +16,9 @@ module.exports = class Scripts {
       input: path.join(process.cwd(), 'src', 'content', 'scripts', 'index.js'),
       plugins: [
         svelte({
-          hydratable: true,
+          compilerOptions: {
+            hydratable: true,
+          }
         }),
         nodeResolve.default({
           browser: true,
@@ -28,7 +30,7 @@ module.exports = class Scripts {
     const { output: [ main ] } = await build.generate({
       format: 'iife',
     });
-  
+
     if (main.facadeModuleId) {
       return main.code;
     }
