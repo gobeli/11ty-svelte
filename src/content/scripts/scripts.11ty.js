@@ -1,7 +1,10 @@
 const rollup = require('rollup');
 const svelte = require('rollup-plugin-svelte');
 const nodeResolve = require('@rollup/plugin-node-resolve');
-const path = require('path')
+const path = require('path');
+const terser = require("@rollup/plugin-terser");
+
+const css = require('rollup-plugin-css-only');
 
 module.exports = class Scripts {
   data () {
@@ -18,11 +21,12 @@ module.exports = class Scripts {
         svelte({
           compilerOptions: {
             hydratable: true,
-          }
+          },
+          emitCss: false,
         }),
+        terser(),
         nodeResolve.default({
           browser: true,
-          dedupe: ['svelte'],
         }),
       ]
     });

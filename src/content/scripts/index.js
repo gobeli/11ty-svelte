@@ -1,4 +1,5 @@
 import Test from './components/Test.svelte';
+import Counter from './components/Counter.svelte';
 
 function registerComponent (component, name) {
   document.querySelectorAll(`.${CSS.escape(name)}`).forEach($el => {
@@ -12,3 +13,4 @@ function registerComponent (component, name) {
 }
 
 registerComponent(Test, 'svelte--Test.svelte');
+registerComponent(Counter, 'svelte--Counter.svelte');

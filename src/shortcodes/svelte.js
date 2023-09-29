@@ -1,10 +1,10 @@
 const path = require("path");
 const rollup = require("rollup");
 const svelte = require("rollup-plugin-svelte");
-const nodeResolve = require('@rollup/plugin-node-resolve');
+const nodeResolve = require("@rollup/plugin-node-resolve");
+const css = require("rollup-plugin-css-only");
 
 module.exports = async function svelteShortcode(filename, props) {
-  // find the component which is requested
   const input = path.join(
     process.cwd(),
     "src",
@@ -23,22 +23,20 @@ module.exports = async function svelteShortcode(filename, props) {
           generate: "ssr",
           hydratable: true,
         },
+        emitCss: true,
       }),
-      nodeResolve.default({
-        browser: false,
-        dedupe: ['svelte'],
-      }),
+      css(),
+      nodeResolve.default(),
+
     ],
   });
 
-  // generate the bundle
   const {
     output: [main],
   } = await build.generate({
     format: "cjs",
-    exports: 'named',
+    exports: "named",
   });
-
 
   if (main.facadeModuleId) {
     const Component = requireFromString(main.code, main.facadeModuleId).default;
@@ -47,16 +45,17 @@ module.exports = async function svelteShortcode(filename, props) {
 };
 
 function renderComponent(component, filename, props) {
-  return `
-    <div class="svelte--${filename}" data-props='${JSON.stringify(props || {})}'>
-      ${component.render(props).html}
-    </div>
-  `
+  return `<style>${component.render(props).css.code}</style>
+          <div class="svelte--${filename}" data-props='${JSON.stringify(
+    props || {}
+  )}'>
+            ${component.render(props).html}
+          </div>`;
 }
 
 function requireFromString(src, filename) {
-  const m = new module.constructor()
-  m.paths = module.paths
-  m._compile(src, filename)
-  return m.exports
+  const m = new module.constructor();
+  m.paths = module.paths;
+  m._compile(src, filename);
+  return m.exports;
 }
