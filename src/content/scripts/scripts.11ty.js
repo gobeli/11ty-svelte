@@ -1,7 +1,10 @@
 const rollup = require('rollup');
 const svelte = require('rollup-plugin-svelte');
 const nodeResolve = require('@rollup/plugin-node-resolve');
-const path = require('path')
+const path = require('path');
+const terser = require("@rollup/plugin-terser");
+
+const css = require('rollup-plugin-css-only');
 
 module.exports = class Scripts {
   data () {
@@ -16,11 +19,14 @@ module.exports = class Scripts {
       input: path.join(process.cwd(), 'src', 'content', 'scripts', 'index.js'),
       plugins: [
         svelte({
-          hydratable: true,
+          compilerOptions: {
+            hydratable: true,
+          },
+          emitCss: false,
         }),
+        terser(),
         nodeResolve.default({
           browser: true,
-          dedupe: ['svelte'],
         }),
       ]
     });
@@ -28,7 +34,7 @@ module.exports = class Scripts {
     const { output: [ main ] } = await build.generate({
       format: 'iife',
     });
-  
+
     if (main.facadeModuleId) {
       return main.code;
     }
